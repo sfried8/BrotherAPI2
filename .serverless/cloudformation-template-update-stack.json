@@ -116,7 +116,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/BrotherAPI/dev/1516933208762-2018-01-26T02:20:08.762Z/BrotherAPI.zip"
+          "S3Key": "serverless/BrotherAPI/dev/1517013378082-2018-01-27T00:36:18.082Z/BrotherAPI.zip"
         },
         "FunctionName": "BrotherAPI-dev-app",
         "Handler": "index.handler",
@@ -140,14 +140,14 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "AppLambdaVersione11s93qCdkpJd371cqsjBYWnzHhPjzfRfZQTg4Vrnc": {
+    "AppLambdaVersionMagnL2PoRRrm1I0sfWJzMiAeXsRP1s7FXjUXW8vX8Vo": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "AppLambdaFunction"
         },
-        "CodeSha256": "FWrGJDEd/UjoZfi5QjCDQbJfvmdwnmC04HOY0uLKYus="
+        "CodeSha256": "qgKJLkapeVvQskb0lyG5pR4AX6+fF0wXJ3rcs0dxOsA="
       }
     },
     "ApiGatewayRestApi": {
@@ -257,7 +257,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1516933208821": {
+    "ApiGatewayDeployment1517013378181": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -335,7 +335,7 @@
     "AppLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "AppLambdaVersione11s93qCdkpJd371cqsjBYWnzHhPjzfRfZQTg4Vrnc"
+        "Ref": "AppLambdaVersionMagnL2PoRRrm1I0sfWJzMiAeXsRP1s7FXjUXW8vX8Vo"
       }
     },
     "ServiceEndpoint": {

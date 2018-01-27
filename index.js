@@ -38,28 +38,75 @@ app.get("/brothers/:scroll", function(req, res) {
             res.status(400).json({ error: "Could not get brother" });
         }
         if (result.Item) {
-            const { scroll, name } = result.Item;
-            res.json({ scroll, name });
+            const {
+                scroll,
+                fname,
+                lname,
+                pc,
+                nickname,
+                big,
+                active,
+                isZetaTau
+            } = result.Item;
+            res.json({
+                scroll,
+                fname,
+                lname,
+                pc,
+                nickname,
+                big,
+                active,
+                isZetaTau
+            });
         } else {
             res.status(404).json({ error: "Brother not found" });
         }
     });
 });
+app.get("/brothers", function(req, res) {
+    // if (typeof scroll !== "string") {
+    //     res.status(400).json({ error: '"scroll" must be a string' });
+    // } else if (typeof name !== "string") {
+    //     res.status(400).json({ error: '"name" must be a string' });
+    // }
 
+    const params = {
+        TableName: BROTHERS_TABLE
+    };
+
+    dynamoDb.scan(params, (error, result) => {
+        if (error) {
+            console.log(error);
+            res.status(400).json({ error: "Could not get brothers" });
+        } else {
+            res.json(result.Items);
+        }
+    });
+});
 // Create Brother endpoint
-app.post("/brothers", function(req, res) {
-    const { scroll, name } = req.body;
-    if (typeof scroll !== "string") {
-        res.status(400).json({ error: '"scroll" must be a string' });
-    } else if (typeof name !== "string") {
-        res.status(400).json({ error: '"name" must be a string' });
+app.post("/brothers/add", function(req, res) {
+    let { scroll, fname, lname, pc, nickname, bigS, active } = req.body;
+    // if (typeof scroll !== "string") {
+    //     res.status(400).json({ error: '"scroll" must be a string' });
+    // } else if (typeof name !== "string") {
+    //     res.status(400).json({ error: '"name" must be a string' });
+    // }
+    let isZetaTau = false;
+    if (pc < 0) {
+        pc *= -1;
+        isZetaTau = true;
     }
-
     const params = {
         TableName: BROTHERS_TABLE,
         Item: {
             scroll: scroll,
-            name: name
+            fname: fname,
+            lname: lname,
+            pc: pc,
+            isZetaTau: isZetaTau,
+            nickname: nickname,
+            big: bigS,
+            active: active
         }
     };
 
@@ -68,7 +115,16 @@ app.post("/brothers", function(req, res) {
             console.log(error);
             res.status(400).json({ error: "Could not create brother" });
         }
-        res.json({ scroll, name });
+        res.json({
+            scroll,
+            fname,
+            lname,
+            pc,
+            nickname,
+            bigS,
+            active,
+            isZetaTau
+        });
     });
 });
 
