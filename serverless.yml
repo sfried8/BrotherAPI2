@@ -6,6 +6,7 @@ service: BrotherAPI
 
 custom:
   tableName: 'brothers2-table-${self:provider.stage}'
+  officerTableName: 'officers-table-${self:provider.stage}'
   dynamodb:
     start:
       migrate: true
@@ -25,8 +26,10 @@ provider:
         - dynamodb:DeleteItem
       Resource:
         - { "Fn::GetAtt": ["Brothers2DynamoDBTable", "Arn" ] }
+        - { "Fn::GetAtt": ["OfficersDynamoDBTable", "Arn" ] }
   environment:
     BROTHERS_TABLE: ${self:custom.tableName}
+    OFFICERS_TABLE: ${self:custom.officerTableName}
 
 functions:
   app:
@@ -53,3 +56,18 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: ${self:custom.tableName}
+    OfficersDynamoDBTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: title
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: title
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:custom.officerTableName}

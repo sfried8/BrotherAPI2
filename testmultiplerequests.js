@@ -678,6 +678,10 @@ const data = JSON.parse(`{"brothers":
 { "scroll": "676", "pc": 0, "fname": "Reginald", "lname": "Rogers", "name": "Reginald Rogers", "nickname": "Bobblehead", "big": "Kristopher Kidder", "bigS": 604, "active": 0}]
 }
 `);
+const officerData = JSON.parse(`{"brothers":[{"title":"Prytanis","current":630},{"title":"Epiprytanis","current":635},
+              {"title":"Histor","current":628},{"title":"Hegemon","current":620},
+              {"title":"Hypophetes","current":634},{"title":"Pylortes","current":618},
+              {"title":"Grammateus","current":629},{"title":"Crysophylos","current":600}]}`);
 require("isomorphic-fetch");
 require("es6-promise").polyfill();
 function timeout(ms) {
@@ -685,9 +689,9 @@ function timeout(ms) {
 }
 
 async function makeRequests() {
-    // const url = "http://localhost:3000/brothers/add";
-    const url =
-        "https://91m1lypdhh.execute-api.us-east-1.amazonaws.com/dev/brothers/add";
+    const url = "http://localhost:3000/brothers/add";
+    // const url =
+    // "https://91m1lypdhh.execute-api.us-east-1.amazonaws.com/dev/brothers/add";
 
     for (let i = 0; i < data.brothers.length; i++) {
         const element = data.brothers[i];
@@ -703,9 +707,31 @@ async function makeRequests() {
                 .then(res => res.json())
                 .catch(error => console.error("Error:", error))
                 .then(response => console.log("Success:", response)),
-            timeout(1000)
+            timeout(100)
+        ]);
+    }
+await makeRequests2();
+}
+async function makeRequests2() {
+    const url = "http://localhost:3000/brothers/addOfficer";
+    // const url =
+    // "https://91m1lypdhh.execute-api.us-east-1.amazonaws.com/dev/brothers/add";
+
+    for (let i = 0; i < officerData.brothers.length; i++) {
+        const element = officerData.brothers[i];
+        await Promise.all([
+            fetch(url, {
+                method: "POST", // or 'PUT'
+                body: JSON.stringify(element),
+                headers: new Headers({
+                    "Content-Type": "application/json"
+                })
+            })
+                .then(res => res.json())
+                .catch(error => console.error("Error:", error))
+                .then(response => console.log("Success:", response)),
+            timeout(100)
         ]);
     }
 }
-
 makeRequests();

@@ -5,6 +5,7 @@ const app = express();
 const AWS = require("aws-sdk");
 
 const BROTHERS_TABLE = process.env.BROTHERS_TABLE;
+const OFFICERS_TABLE = process.env.OFFICERS_TABLE;
 
 const IS_OFFLINE = process.env.IS_OFFLINE;
 let dynamoDb;
@@ -79,7 +80,21 @@ app.get("/brothers", function(req, res) {
             console.log(error);
             res.status(400).json({ error: "Could not get brothers" });
         } else {
-            res.json(result.Items);
+            const params2 = { TableName: OFFICERS_TABLE };
+
+            dynamoDb.scan(params2, (error2, result2) => {
+                if (error2) {
+                    console.log(error2);
+                    res.status(400).json({
+                        error: "Could not get brothers"
+                    });
+                } else {
+                    res.json({
+                        brothers: result.Items,
+                        officers: result2.Items
+                    });
+                }
+            });
         }
     });
 });
@@ -127,5 +142,25 @@ app.post("/brothers/add", function(req, res) {
         });
     });
 });
+app.post("/brothers/addOfficer", function(req, res) {
+    let { current, title } = req.body;
+    const params = {
+        TableName: OFFICERS_TABLE,
+        Item: {
+            title: title,
+            current: current
+        }
+    };
 
+    dynamoDb.put(params, error => {
+        if (error) {
+            console.log(error);
+            res.status(400).json({ error: "Could not create officer" });
+        }
+        res.json({
+            title,
+            current
+        });
+    });
+});
 module.exports.handler = serverless(app);
