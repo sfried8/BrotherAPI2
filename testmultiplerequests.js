@@ -689,9 +689,9 @@ function timeout(ms) {
 }
 
 async function makeRequests() {
-    const url = "http://localhost:3000/brothers/add";
-    // const url =
-    // "https://91m1lypdhh.execute-api.us-east-1.amazonaws.com/dev/brothers/add";
+    // const url = "http://localhost:3000/brothers/add";
+    const url =
+        "https://imm30g62kg.execute-api.us-east-1.amazonaws.com/dev/brothers/add";
 
     for (let i = 0; i < data.brothers.length; i++) {
         const element = data.brothers[i];
@@ -707,15 +707,15 @@ async function makeRequests() {
                 .then(res => res.json())
                 .catch(error => console.error("Error:", error))
                 .then(response => console.log("Success:", response)),
-            timeout(100)
+            timeout(300)
         ]);
     }
-await makeRequests2();
+    await makeRequests2();
 }
 async function makeRequests2() {
-    const url = "http://localhost:3000/brothers/addOfficer";
-    // const url =
-    // "https://91m1lypdhh.execute-api.us-east-1.amazonaws.com/dev/brothers/add";
+    // const url = "http://localhost:3000/brothers/addOfficer";
+    const url =
+        "https://imm30g62kg.execute-api.us-east-1.amazonaws.com/dev/brothers/addOfficer";
 
     for (let i = 0; i < officerData.brothers.length; i++) {
         const element = officerData.brothers[i];
@@ -730,7 +730,7 @@ async function makeRequests2() {
                 .then(res => res.json())
                 .catch(error => console.error("Error:", error))
                 .then(response => console.log("Success:", response)),
-            timeout(100)
+            timeout(300)
         ]);
     }
 }

@@ -1,0 +1,90 @@
+# serverless.yml
+plugins:
+  - serverless-dynamodb-local
+  - serverless-offline
+service: BrotherAPI
+
+custom:
+  tableName: 'brothers2-table-${self:provider.stage}'
+  officerTableName: 'officers-table-${self:provider.stage}'
+  dynamodb:
+    start:
+      migrate: true
+provider:
+  name: aws
+  runtime: nodejs6.10
+  stage: dev
+  region: us-east-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource:
+        - { "Fn::GetAtt": ["Brothers2DynamoDBTable", "Arn" ] }
+        - { "Fn::GetAtt": ["OfficersDynamoDBTable", "Arn" ] }
+  environment:
+    BROTHERS_TABLE: ${self:custom.tableName}
+    OFFICERS_TABLE: ${self:custom.officerTableName}
+
+functions:
+  getBrothers:
+    handler: index.handler
+    events:
+      - http: 
+          path: brothers
+          method: get
+          cors: true
+
+  addBrother:
+    handler: index.handler
+    events:
+      - http: 
+          path: brothers/add
+          method: post
+          cors: true
+  addOfficer:
+    handler: index.handler
+    events:
+      - http: 
+          path: brothers/addOfficer
+          method: post
+          cors: true
+
+
+resources:
+  Resources:
+    Brothers2DynamoDBTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: scroll
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: scroll
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:custom.tableName}
+    OfficersDynamoDBTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: title
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: title
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:custom.officerTableName}

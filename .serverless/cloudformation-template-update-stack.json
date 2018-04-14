@@ -3,17 +3,24 @@
   "Description": "The AWS CloudFormation template for this Serverless application",
   "Resources": {
     "ServerlessDeploymentBucket": {
-      "Type": "AWS::S3::Bucket",
-      "Properties": {
-        "AccelerateConfiguration": {
-          "AccelerationStatus": "Suspended"
-        }
-      }
+      "Type": "AWS::S3::Bucket"
     },
-    "AppLogGroup": {
+    "GetBrothersLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/BrotherAPI-dev-app"
+        "LogGroupName": "/aws/lambda/BrotherAPI-dev-getBrothers"
+      }
+    },
+    "AddBrotherLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/BrotherAPI-dev-addBrother"
+      }
+    },
+    "AddOfficerLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/BrotherAPI-dev-addOfficer"
       }
     },
     "IamRoleLambdaExecution": {
@@ -57,7 +64,13 @@
                   ],
                   "Resource": [
                     {
-                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/BrotherAPI-dev-app:*"
+                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/BrotherAPI-dev-getBrothers:*"
+                    },
+                    {
+                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/BrotherAPI-dev-addBrother:*"
+                    },
+                    {
+                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/BrotherAPI-dev-addOfficer:*"
                     }
                   ]
                 },
@@ -68,7 +81,13 @@
                   ],
                   "Resource": [
                     {
-                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/BrotherAPI-dev-app:*:*"
+                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/BrotherAPI-dev-getBrothers:*:*"
+                    },
+                    {
+                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/BrotherAPI-dev-addBrother:*:*"
+                    },
+                    {
+                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/BrotherAPI-dev-addOfficer:*:*"
                     }
                   ]
                 },
@@ -86,6 +105,12 @@
                     {
                       "Fn::GetAtt": [
                         "Brothers2DynamoDBTable",
+                        "Arn"
+                      ]
+                    },
+                    {
+                      "Fn::GetAtt": [
+                        "OfficersDynamoDBTable",
                         "Arn"
                       ]
                     }
@@ -109,16 +134,16 @@
         }
       }
     },
-    "AppLambdaFunction": {
+    "GetBrothersLambdaFunction": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/BrotherAPI/dev/1517013378082-2018-01-27T00:36:18.082Z/BrotherAPI.zip"
+          "S3Key": "serverless/BrotherAPI/dev/1523723039471-2018-04-14T16:23:59.471Z/BrotherAPI.zip"
         },
-        "FunctionName": "BrotherAPI-dev-app",
+        "FunctionName": "BrotherAPI-dev-getBrothers",
         "Handler": "index.handler",
         "MemorySize": 1024,
         "Role": {
@@ -131,23 +156,108 @@
         "Timeout": 6,
         "Environment": {
           "Variables": {
-            "BROTHERS_TABLE": "brothers2-table-dev"
+            "BROTHERS_TABLE": "brothers3-table-dev",
+            "OFFICERS_TABLE": "officers2-table-dev"
           }
         }
       },
       "DependsOn": [
-        "AppLogGroup",
+        "GetBrothersLogGroup",
         "IamRoleLambdaExecution"
       ]
     },
-    "AppLambdaVersionMagnL2PoRRrm1I0sfWJzMiAeXsRP1s7FXjUXW8vX8Vo": {
+    "GetBrothersLambdaVersionxBlY8Dqg8qPXJT5QFjkBBrG1mP19sfijkvk3SO5Iw": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
-          "Ref": "AppLambdaFunction"
+          "Ref": "GetBrothersLambdaFunction"
         },
-        "CodeSha256": "qgKJLkapeVvQskb0lyG5pR4AX6+fF0wXJ3rcs0dxOsA="
+        "CodeSha256": "18+ZKucwYVXq2C55nMQ0Hc6/rp/ENk3v0iFZmlWw6ME="
+      }
+    },
+    "AddBrotherLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/BrotherAPI/dev/1523723039471-2018-04-14T16:23:59.471Z/BrotherAPI.zip"
+        },
+        "FunctionName": "BrotherAPI-dev-addBrother",
+        "Handler": "index.handler",
+        "MemorySize": 1024,
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        },
+        "Runtime": "nodejs6.10",
+        "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "BROTHERS_TABLE": "brothers3-table-dev",
+            "OFFICERS_TABLE": "officers2-table-dev"
+          }
+        }
+      },
+      "DependsOn": [
+        "AddBrotherLogGroup",
+        "IamRoleLambdaExecution"
+      ]
+    },
+    "AddBrotherLambdaVersion2vf7vwrOEVwEeSis9Ni8EldHUYQMMjVGz3FLuU7A": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "AddBrotherLambdaFunction"
+        },
+        "CodeSha256": "18+ZKucwYVXq2C55nMQ0Hc6/rp/ENk3v0iFZmlWw6ME="
+      }
+    },
+    "AddOfficerLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/BrotherAPI/dev/1523723039471-2018-04-14T16:23:59.471Z/BrotherAPI.zip"
+        },
+        "FunctionName": "BrotherAPI-dev-addOfficer",
+        "Handler": "index.handler",
+        "MemorySize": 1024,
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        },
+        "Runtime": "nodejs6.10",
+        "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "BROTHERS_TABLE": "brothers3-table-dev",
+            "OFFICERS_TABLE": "officers2-table-dev"
+          }
+        }
+      },
+      "DependsOn": [
+        "AddOfficerLogGroup",
+        "IamRoleLambdaExecution"
+      ]
+    },
+    "AddOfficerLambdaVersionfYxgqVqjLc2jTgHXvGT3GHYvlTk8EUO59zR8vy99Ebo": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "AddOfficerLambdaFunction"
+        },
+        "CodeSha256": "18+ZKucwYVXq2C55nMQ0Hc6/rp/ENk3v0iFZmlWw6ME="
       }
     },
     "ApiGatewayRestApi": {
@@ -161,7 +271,7 @@
         }
       }
     },
-    "ApiGatewayResourceProxyVar": {
+    "ApiGatewayResourceBrothers": {
       "Type": "AWS::ApiGateway::Resource",
       "Properties": {
         "ParentId": {
@@ -170,61 +280,181 @@
             "RootResourceId"
           ]
         },
-        "PathPart": "{proxy+}",
+        "PathPart": "brothers",
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
         }
       }
     },
-    "ApiGatewayMethodAny": {
+    "ApiGatewayResourceBrothersAdd": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Ref": "ApiGatewayResourceBrothers"
+        },
+        "PathPart": "add",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayResourceBrothersAddofficer": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Ref": "ApiGatewayResourceBrothers"
+        },
+        "PathPart": "addOfficer",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayMethodBrothersOptions": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
-        "HttpMethod": "ANY",
+        "AuthorizationType": "NONE",
+        "HttpMethod": "OPTIONS",
+        "MethodResponses": [
+          {
+            "StatusCode": "200",
+            "ResponseParameters": {
+              "method.response.header.Access-Control-Allow-Origin": true,
+              "method.response.header.Access-Control-Allow-Headers": true,
+              "method.response.header.Access-Control-Allow-Methods": true,
+              "method.response.header.Access-Control-Allow-Credentials": true
+            },
+            "ResponseModels": {}
+          }
+        ],
         "RequestParameters": {},
-        "ResourceId": {
-          "Fn::GetAtt": [
-            "ApiGatewayRestApi",
-            "RootResourceId"
+        "Integration": {
+          "Type": "MOCK",
+          "RequestTemplates": {
+            "application/json": "{statusCode:200}"
+          },
+          "IntegrationResponses": [
+            {
+              "StatusCode": "200",
+              "ResponseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'*'",
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'",
+                "method.response.header.Access-Control-Allow-Credentials": "'false'"
+              },
+              "ResponseTemplates": {
+                "application/json": ""
+              }
+            }
           ]
         },
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceBrothers"
+        },
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
-        },
-        "ApiKeyRequired": false,
-        "AuthorizationType": "NONE",
-        "Integration": {
-          "IntegrationHttpMethod": "POST",
-          "Type": "AWS_PROXY",
-          "Uri": {
-            "Fn::Join": [
-              "",
-              [
-                "arn:aws:apigateway:",
-                {
-                  "Ref": "AWS::Region"
-                },
-                ":lambda:path/2015-03-31/functions/",
-                {
-                  "Fn::GetAtt": [
-                    "AppLambdaFunction",
-                    "Arn"
-                  ]
-                },
-                "/invocations"
-              ]
-            ]
-          }
-        },
-        "MethodResponses": []
+        }
       }
     },
-    "ApiGatewayMethodProxyVarAny": {
+    "ApiGatewayMethodBrothersAddOptions": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
-        "HttpMethod": "ANY",
+        "AuthorizationType": "NONE",
+        "HttpMethod": "OPTIONS",
+        "MethodResponses": [
+          {
+            "StatusCode": "200",
+            "ResponseParameters": {
+              "method.response.header.Access-Control-Allow-Origin": true,
+              "method.response.header.Access-Control-Allow-Headers": true,
+              "method.response.header.Access-Control-Allow-Methods": true,
+              "method.response.header.Access-Control-Allow-Credentials": true
+            },
+            "ResponseModels": {}
+          }
+        ],
+        "RequestParameters": {},
+        "Integration": {
+          "Type": "MOCK",
+          "RequestTemplates": {
+            "application/json": "{statusCode:200}"
+          },
+          "IntegrationResponses": [
+            {
+              "StatusCode": "200",
+              "ResponseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'*'",
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST'",
+                "method.response.header.Access-Control-Allow-Credentials": "'false'"
+              },
+              "ResponseTemplates": {
+                "application/json": ""
+              }
+            }
+          ]
+        },
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceBrothersAdd"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayMethodBrothersAddofficerOptions": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "OPTIONS",
+        "MethodResponses": [
+          {
+            "StatusCode": "200",
+            "ResponseParameters": {
+              "method.response.header.Access-Control-Allow-Origin": true,
+              "method.response.header.Access-Control-Allow-Headers": true,
+              "method.response.header.Access-Control-Allow-Methods": true,
+              "method.response.header.Access-Control-Allow-Credentials": true
+            },
+            "ResponseModels": {}
+          }
+        ],
+        "RequestParameters": {},
+        "Integration": {
+          "Type": "MOCK",
+          "RequestTemplates": {
+            "application/json": "{statusCode:200}"
+          },
+          "IntegrationResponses": [
+            {
+              "StatusCode": "200",
+              "ResponseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'*'",
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST'",
+                "method.response.header.Access-Control-Allow-Credentials": "'false'"
+              },
+              "ResponseTemplates": {
+                "application/json": ""
+              }
+            }
+          ]
+        },
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceBrothersAddofficer"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayMethodBrothersGet": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "GET",
         "RequestParameters": {},
         "ResourceId": {
-          "Ref": "ApiGatewayResourceProxyVar"
+          "Ref": "ApiGatewayResourceBrothers"
         },
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
@@ -245,7 +475,7 @@
                 ":lambda:path/2015-03-31/functions/",
                 {
                   "Fn::GetAtt": [
-                    "AppLambdaFunction",
+                    "GetBrothersLambdaFunction",
                     "Arn"
                   ]
                 },
@@ -257,7 +487,85 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1517013378181": {
+    "ApiGatewayMethodBrothersAddPost": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "POST",
+        "RequestParameters": {},
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceBrothersAdd"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        },
+        "ApiKeyRequired": false,
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:aws:apigateway:",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "AddBrotherLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "/invocations"
+              ]
+            ]
+          }
+        },
+        "MethodResponses": []
+      }
+    },
+    "ApiGatewayMethodBrothersAddofficerPost": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "POST",
+        "RequestParameters": {},
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceBrothersAddofficer"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        },
+        "ApiKeyRequired": false,
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:aws:apigateway:",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "AddOfficerLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "/invocations"
+              ]
+            ]
+          }
+        },
+        "MethodResponses": []
+      }
+    },
+    "ApiGatewayDeployment1523723039704": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -266,16 +574,83 @@
         "StageName": "dev"
       },
       "DependsOn": [
-        "ApiGatewayMethodAny",
-        "ApiGatewayMethodProxyVarAny"
+        "ApiGatewayMethodBrothersGet",
+        "ApiGatewayMethodBrothersAddPost",
+        "ApiGatewayMethodBrothersAddofficerPost"
       ]
     },
-    "AppLambdaPermissionApiGateway": {
+    "GetBrothersLambdaPermissionApiGateway": {
       "Type": "AWS::Lambda::Permission",
       "Properties": {
         "FunctionName": {
           "Fn::GetAtt": [
-            "AppLambdaFunction",
+            "GetBrothersLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:aws:execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "/*/*"
+            ]
+          ]
+        }
+      }
+    },
+    "AddBrotherLambdaPermissionApiGateway": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "AddBrotherLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:aws:execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "/*/*"
+            ]
+          ]
+        }
+      }
+    },
+    "AddOfficerLambdaPermissionApiGateway": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "AddOfficerLambdaFunction",
             "Arn"
           ]
         },
@@ -322,7 +697,29 @@
           "ReadCapacityUnits": 1,
           "WriteCapacityUnits": 1
         },
-        "TableName": "brothers2-table-dev"
+        "TableName": "brothers3-table-dev"
+      }
+    },
+    "OfficersDynamoDBTable": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "title",
+            "AttributeType": "S"
+          }
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "title",
+            "KeyType": "HASH"
+          }
+        ],
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": 1,
+          "WriteCapacityUnits": 1
+        },
+        "TableName": "officers2-table-dev"
       }
     }
   },
@@ -332,10 +729,22 @@
         "Ref": "ServerlessDeploymentBucket"
       }
     },
-    "AppLambdaFunctionQualifiedArn": {
+    "GetBrothersLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "AppLambdaVersionMagnL2PoRRrm1I0sfWJzMiAeXsRP1s7FXjUXW8vX8Vo"
+        "Ref": "GetBrothersLambdaVersionxBlY8Dqg8qPXJT5QFjkBBrG1mP19sfijkvk3SO5Iw"
+      }
+    },
+    "AddBrotherLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "AddBrotherLambdaVersion2vf7vwrOEVwEeSis9Ni8EldHUYQMMjVGz3FLuU7A"
+      }
+    },
+    "AddOfficerLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "AddOfficerLambdaVersionfYxgqVqjLc2jTgHXvGT3GHYvlTk8EUO59zR8vy99Ebo"
       }
     },
     "ServiceEndpoint": {

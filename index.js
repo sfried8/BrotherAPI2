@@ -1,7 +1,9 @@
 const serverless = require("serverless-http");
 const bodyParser = require("body-parser");
 const express = require("express");
+const cors = require("cors");
 const app = express();
+app.use(cors());
 const AWS = require("aws-sdk");
 
 const BROTHERS_TABLE = process.env.BROTHERS_TABLE;

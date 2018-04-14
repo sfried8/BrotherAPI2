@@ -5,8 +5,8 @@ plugins:
 service: BrotherAPI
 
 custom:
-  tableName: 'brothers2-table-${self:provider.stage}'
-  officerTableName: 'officers-table-${self:provider.stage}'
+  tableName: 'brothers3-table-${self:provider.stage}'
+  officerTableName: 'officers2-table-${self:provider.stage}'
   dynamodb:
     start:
       migrate: true
@@ -32,11 +32,28 @@ provider:
     OFFICERS_TABLE: ${self:custom.officerTableName}
 
 functions:
-  app:
+  getBrothers:
     handler: index.handler
     events:
-      - http: ANY /
-      - http: 'ANY {proxy+}'
+      - http: 
+          path: brothers
+          method: get
+          cors: true
+
+  addBrother:
+    handler: index.handler
+    events:
+      - http: 
+          path: brothers/add
+          method: post
+          cors: true
+  addOfficer:
+    handler: index.handler
+    events:
+      - http: 
+          path: brothers/addOfficer
+          method: post
+          cors: true
 
 
 resources:
