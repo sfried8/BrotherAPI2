@@ -164,7 +164,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/BrotherAPI/dev/1523723039471-2018-04-14T16:23:59.471Z/BrotherAPI.zip"
+                "S3Key": "serverless/BrotherAPI/dev/1523821065288-2018-04-15T19:37:45.288Z/BrotherAPI.zip"
               },
               "FunctionName": "BrotherAPI-dev-getBrothers",
               "Handler": "index.handler",
@@ -189,14 +189,14 @@
               "IamRoleLambdaExecution"
             ]
           },
-          "GetBrothersLambdaVersionxBlY8Dqg8qPXJT5QFjkBBrG1mP19sfijkvk3SO5Iw": {
+          "GetBrothersLambdaVersionSuqCc2QBEbPCgxV6tz4nW8BLFKhQayuzgrHZriWcpQ": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GetBrothersLambdaFunction"
               },
-              "CodeSha256": "18+ZKucwYVXq2C55nMQ0Hc6/rp/ENk3v0iFZmlWw6ME="
+              "CodeSha256": "m7DT0LYLA6dHnPb+uOwX/tOcWvbqWiQz7ALDumEdTxo="
             }
           },
           "AddBrotherLambdaFunction": {
@@ -206,7 +206,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/BrotherAPI/dev/1523723039471-2018-04-14T16:23:59.471Z/BrotherAPI.zip"
+                "S3Key": "serverless/BrotherAPI/dev/1523821065288-2018-04-15T19:37:45.288Z/BrotherAPI.zip"
               },
               "FunctionName": "BrotherAPI-dev-addBrother",
               "Handler": "index.handler",
@@ -231,14 +231,14 @@
               "IamRoleLambdaExecution"
             ]
           },
-          "AddBrotherLambdaVersion2vf7vwrOEVwEeSis9Ni8EldHUYQMMjVGz3FLuU7A": {
+          "AddBrotherLambdaVersionBUSFvCG6o6jQf6bgvlbPJ4BDeI7uI33PadI5WShcJN4": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AddBrotherLambdaFunction"
               },
-              "CodeSha256": "18+ZKucwYVXq2C55nMQ0Hc6/rp/ENk3v0iFZmlWw6ME="
+              "CodeSha256": "m7DT0LYLA6dHnPb+uOwX/tOcWvbqWiQz7ALDumEdTxo="
             }
           },
           "AddOfficerLambdaFunction": {
@@ -248,7 +248,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/BrotherAPI/dev/1523723039471-2018-04-14T16:23:59.471Z/BrotherAPI.zip"
+                "S3Key": "serverless/BrotherAPI/dev/1523821065288-2018-04-15T19:37:45.288Z/BrotherAPI.zip"
               },
               "FunctionName": "BrotherAPI-dev-addOfficer",
               "Handler": "index.handler",
@@ -273,14 +273,14 @@
               "IamRoleLambdaExecution"
             ]
           },
-          "AddOfficerLambdaVersionfYxgqVqjLc2jTgHXvGT3GHYvlTk8EUO59zR8vy99Ebo": {
+          "AddOfficerLambdaVersionH9lKQrugS2PgRgHEyjcSR9f1OG9fTo1kWWSpSx8oo": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AddOfficerLambdaFunction"
               },
-              "CodeSha256": "18+ZKucwYVXq2C55nMQ0Hc6/rp/ENk3v0iFZmlWw6ME="
+              "CodeSha256": "m7DT0LYLA6dHnPb+uOwX/tOcWvbqWiQz7ALDumEdTxo="
             }
           },
           "ApiGatewayRestApi": {
@@ -588,7 +588,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1523723039704": {
+          "ApiGatewayDeployment1523821065524": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -755,19 +755,19 @@
           "GetBrothersLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GetBrothersLambdaVersionxBlY8Dqg8qPXJT5QFjkBBrG1mP19sfijkvk3SO5Iw"
+              "Ref": "GetBrothersLambdaVersionSuqCc2QBEbPCgxV6tz4nW8BLFKhQayuzgrHZriWcpQ"
             }
           },
           "AddBrotherLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AddBrotherLambdaVersion2vf7vwrOEVwEeSis9Ni8EldHUYQMMjVGz3FLuU7A"
+              "Ref": "AddBrotherLambdaVersionBUSFvCG6o6jQf6bgvlbPJ4BDeI7uI33PadI5WShcJN4"
             }
           },
           "AddOfficerLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AddOfficerLambdaVersionfYxgqVqjLc2jTgHXvGT3GHYvlTk8EUO59zR8vy99Ebo"
+              "Ref": "AddOfficerLambdaVersionH9lKQrugS2PgRgHEyjcSR9f1OG9fTo1kWWSpSx8oo"
             }
           },
           "ServiceEndpoint": {
@@ -974,7 +974,7 @@
     "artifact": "/home/sam/Documents/GitHub/BrotherAPI2/.serverless/BrotherAPI.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/BrotherAPI/dev/1523723039471-2018-04-14T16:23:59.471Z",
+    "artifactDirectoryName": "serverless/BrotherAPI/dev/1523821065288-2018-04-15T19:37:45.288Z",
     "artifact": "BrotherAPI.zip"
   }
 }

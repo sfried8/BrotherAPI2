@@ -63,7 +63,7 @@ app.get("/brothers/:scroll", function(req, res) {
                 isZetaTau
             });
         } else {
-            res.status(403).json({ error: "Brother not found" });
+            res.status(400).json({ error: "Brother not found" });
         }
     });
 });
@@ -96,7 +96,7 @@ app.get("/brothers", function(req, res) {
             }
         });
     } else {
-        res.status(403).json({ error: "Invalid parrword" });
+        res.status(403).json({ error: "Invalid password" });
     }
 });
 // Create Brother endpoint
@@ -153,7 +153,7 @@ app.post("/brothers/add", function(req, res) {
             });
         });
     } else {
-        res.status(403).json({ error: "Invalid parrword" });
+        res.status(403).json({ error: "Invalid password" });
     }
 });
 app.post("/brothers/addOfficer", function(req, res) {
@@ -172,7 +172,7 @@ app.post("/brothers/addOfficer", function(req, res) {
             res.json({ title, current });
         });
     } else {
-        res.status(403).json({ error: "Invalid parrword" });
+        res.status(403).json({ error: "Invalid password" });
     }
 });
 module.exports.handler = serverless(app);
