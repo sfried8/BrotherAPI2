@@ -1,5 +1,15 @@
 {
     "brothers": [
+                {
+            "scroll": "0",
+            "fname": "Unknown",
+            "lname": "Unknown",
+            "active": 0,
+            "pc": 0,
+            "isZetaTau": 0,
+            "nickname": "",
+            "big": 0
+        },
         {
             "scroll": "50",
             "fname": "Roland",
