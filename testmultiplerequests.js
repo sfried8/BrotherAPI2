@@ -689,9 +689,9 @@ function timeout(ms) {
 }
 
 async function makeRequests() {
-    // const url = "http://localhost:3000/brothers/add";
-    const url =
-        "https://imm30g62kg.execute-api.us-east-1.amazonaws.com/dev/brothers/add";
+    const url = "http://localhost:3000/brothers/add";
+    // const url =
+    // "https://imm30g62kg.execute-api.us-east-1.amazonaws.com/dev/brothers/add";
 
     for (let i = 0; i < data.brothers.length; i++) {
         const element = data.brothers[i];
@@ -699,7 +699,10 @@ async function makeRequests() {
         await Promise.all([
             fetch(url, {
                 method: "POST", // or 'PUT'
-                body: JSON.stringify(element),
+                body: JSON.stringify({
+                    ...element,
+                    password: "misterHistor1899"
+                }),
                 headers: new Headers({
                     "Content-Type": "application/json"
                 })
@@ -713,16 +716,19 @@ async function makeRequests() {
     await makeRequests2();
 }
 async function makeRequests2() {
-    // const url = "http://localhost:3000/brothers/addOfficer";
-    const url =
-        "https://imm30g62kg.execute-api.us-east-1.amazonaws.com/dev/brothers/addOfficer";
+    const url = "http://localhost:3000/brothers/addOfficer";
+    // const url =
+    // "https://imm30g62kg.execute-api.us-east-1.amazonaws.com/dev/brothers/addOfficer";
 
     for (let i = 0; i < officerData.brothers.length; i++) {
         const element = officerData.brothers[i];
         await Promise.all([
             fetch(url, {
                 method: "POST", // or 'PUT'
-                body: JSON.stringify(element),
+                body: JSON.stringify({
+                    ...element,
+                    password: "misterHistor1899"
+                }),
                 headers: new Headers({
                     "Content-Type": "application/json"
                 })
@@ -734,4 +740,4 @@ async function makeRequests2() {
         ]);
     }
 }
-makeRequests();
+makeRequests2();

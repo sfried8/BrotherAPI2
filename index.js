@@ -2,6 +2,7 @@ const serverless = require("serverless-http");
 const bodyParser = require("body-parser");
 const express = require("express");
 const cors = require("cors");
+const md5 = require("blueimp-md5");
 const app = express();
 app.use(cors());
 const AWS = require("aws-sdk");
@@ -38,7 +39,7 @@ app.get("/brothers/:scroll", function(req, res) {
     dynamoDb.get(params, (error, result) => {
         if (error) {
             console.log(error);
-            res.status(400).json({ error: "Could not get brother" });
+            res.status(500).json({ error: "Could not get brother" });
         }
         if (result.Item) {
             const {
@@ -62,107 +63,116 @@ app.get("/brothers/:scroll", function(req, res) {
                 isZetaTau
             });
         } else {
-            res.status(404).json({ error: "Brother not found" });
+            res.status(403).json({ error: "Brother not found" });
         }
     });
 });
 app.get("/brothers", function(req, res) {
-    // if (typeof scroll !== "string") {
-    //     res.status(400).json({ error: '"scroll" must be a string' });
-    // } else if (typeof name !== "string") {
-    //     res.status(400).json({ error: '"name" must be a string' });
-    // }
+    if (md5(req.query.password) === "afbaceed96a3d7dadc67c99dafb436ff") {
+        const params = {
+            TableName: BROTHERS_TABLE
+        };
 
-    const params = {
-        TableName: BROTHERS_TABLE
-    };
+        dynamoDb.scan(params, (error, result) => {
+            if (error) {
+                console.log(error);
+                res.status(400).json({ error: "Could not get brothers" });
+            } else {
+                const params2 = { TableName: OFFICERS_TABLE };
 
-    dynamoDb.scan(params, (error, result) => {
-        if (error) {
-            console.log(error);
-            res.status(400).json({ error: "Could not get brothers" });
-        } else {
-            const params2 = { TableName: OFFICERS_TABLE };
-
-            dynamoDb.scan(params2, (error2, result2) => {
-                if (error2) {
-                    console.log(error2);
-                    res.status(400).json({
-                        error: "Could not get brothers"
-                    });
-                } else {
-                    res.json({
-                        brothers: result.Items,
-                        officers: result2.Items
-                    });
-                }
-            });
-        }
-    });
+                dynamoDb.scan(params2, (error2, result2) => {
+                    if (error2) {
+                        console.log(error2);
+                        res.status(400).json({
+                            error: "Could not get brothers"
+                        });
+                    } else {
+                        res.json({
+                            brothers: result.Items,
+                            officers: result2.Items
+                        });
+                    }
+                });
+            }
+        });
+    } else {
+        res.status(403).json({ error: "Invalid parrword" });
+    }
 });
 // Create Brother endpoint
 app.post("/brothers/add", function(req, res) {
-    let { scroll, fname, lname, pc, nickname, bigS, active } = req.body;
+    let {
+        password,
+        scroll,
+        fname,
+        lname,
+        pc,
+        nickname,
+        bigS,
+        active
+    } = req.body;
     // if (typeof scroll !== "string") {
     //     res.status(400).json({ error: '"scroll" must be a string' });
     // } else if (typeof name !== "string") {
     //     res.status(400).json({ error: '"name" must be a string' });
     // }
-    let isZetaTau = false;
-    if (pc < 0) {
-        pc *= -1;
-        isZetaTau = true;
-    }
-    const params = {
-        TableName: BROTHERS_TABLE,
-        Item: {
-            scroll: scroll,
-            fname: fname,
-            lname: lname,
-            pc: pc,
-            isZetaTau: isZetaTau,
-            nickname: nickname,
-            big: bigS,
-            active: active
+    if (md5(password) === "9543af88d9e1633240dc1754b3781863") {
+        let isZetaTau = false;
+        if (pc < 0) {
+            pc *= -1;
+            isZetaTau = true;
         }
-    };
+        const params = {
+            TableName: BROTHERS_TABLE,
+            Item: {
+                scroll: scroll,
+                fname: fname,
+                lname: lname,
+                pc: pc,
+                isZetaTau: isZetaTau,
+                nickname: nickname,
+                big: bigS,
+                active: active
+            }
+        };
 
-    dynamoDb.put(params, error => {
-        if (error) {
-            console.log(error);
-            res.status(400).json({ error: "Could not create brother" });
-        }
-        res.json({
-            scroll,
-            fname,
-            lname,
-            pc,
-            nickname,
-            bigS,
-            active,
-            isZetaTau
+        dynamoDb.put(params, error => {
+            if (error) {
+                console.log(error);
+                res.status(500).json({ error: "Could not create brother" });
+            }
+            res.json({
+                scroll,
+                fname,
+                lname,
+                pc,
+                nickname,
+                bigS,
+                active,
+                isZetaTau
+            });
         });
-    });
+    } else {
+        res.status(403).json({ error: "Invalid parrword" });
+    }
 });
 app.post("/brothers/addOfficer", function(req, res) {
-    let { current, title } = req.body;
-    const params = {
-        TableName: OFFICERS_TABLE,
-        Item: {
-            title: title,
-            current: current
-        }
-    };
+    let { password, current, title } = req.body;
+    if (md5(password) === "9543af88d9e1633240dc1754b3781863") {
+        const params = {
+            TableName: OFFICERS_TABLE,
+            Item: { title: title, current: current }
+        };
 
-    dynamoDb.put(params, error => {
-        if (error) {
-            console.log(error);
-            res.status(400).json({ error: "Could not create officer" });
-        }
-        res.json({
-            title,
-            current
+        dynamoDb.put(params, error => {
+            if (error) {
+                console.log(error);
+                res.status(500).json({ error: "Could not create officer" });
+            }
+            res.json({ title, current });
         });
-    });
+    } else {
+        res.status(403).json({ error: "Invalid parrword" });
+    }
 });
 module.exports.handler = serverless(app);

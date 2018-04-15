@@ -39,6 +39,9 @@ functions:
           path: brothers
           method: get
           cors: true
+          request:
+            template:
+              application/json: '{ "password" : "$input.params(''password'')" }'
 
   addBrother:
     handler: index.handler

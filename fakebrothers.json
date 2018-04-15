@@ -1,0 +1,512 @@
+{
+    "brothers": [
+        {
+            "scroll": "50",
+            "fname": "Roland",
+            "lname": "Meares",
+            "active": 0,
+            "pc": 1,
+            "isZetaTau": 0,
+            "nickname": "Dredd",
+            "big": 0
+        },
+        {
+            "scroll": "1",
+            "fname": "Kenton",
+            "lname": "Hilliard",
+            "active": 0,
+            "pc": 1,
+            "isZetaTau": 0,
+            "nickname": "Mud Pie Man",
+            "big": 0
+        },
+        {
+            "scroll": "2",
+            "fname": "Ryan",
+            "lname": "Lightcap",
+            "active": 0,
+            "pc": 1,
+            "isZetaTau": 0,
+            "nickname": "Toe",
+            "big": 0
+        },
+        {
+            "scroll": "3",
+            "fname": "Alonzo",
+            "lname": "Cranford",
+            "active": 0,
+            "pc": 1,
+            "isZetaTau": 0,
+            "nickname": "Dropkick",
+            "big": 0
+        },
+        {
+            "scroll": "4",
+            "fname": "Cornell",
+            "lname": "Kehrer",
+            "active": 0,
+            "pc": 1,
+            "isZetaTau": 0,
+            "nickname": "Mule Skinner",
+            "big": 0
+        },
+        {
+            "scroll": "5",
+            "fname": "Freeman",
+            "lname": "Holtzclaw",
+            "active": 0,
+            "pc": 2,
+            "isZetaTau": 0,
+            "nickname": "Toolmaker",
+            "big": 2
+        },
+        {
+            "scroll": "6",
+            "fname": "Rodney",
+            "lname": "Kidwell",
+            "active": 0,
+            "pc": 2,
+            "isZetaTau": 0,
+            "nickname": "Drop Stone",
+            "big": 3
+        },
+        {
+            "scroll": "7",
+            "fname": "Grant",
+            "lname": "Mcinturff",
+            "active": 0,
+            "pc": 2,
+            "isZetaTau": 0,
+            "nickname": "Murmur",
+            "big": 4
+        },
+        {
+            "scroll": "8",
+            "fname": "Lindsey",
+            "lname": "Maxham",
+            "active": 0,
+            "pc": 2,
+            "isZetaTau": 0,
+            "nickname": "Tough Nut",
+            "big": 3
+        },
+        {
+            "scroll": "9",
+            "fname": "Gavin",
+            "lname": "Birkland",
+            "active": 0,
+            "pc": 2,
+            "isZetaTau": 0,
+            "nickname": "Drugstore Cowboy",
+            "big": 2
+        },
+        {
+            "scroll": "10",
+            "fname": "Walter",
+            "lname": "Shedd",
+            "active": 0,
+            "pc": 3,
+            "isZetaTau": 0,
+            "nickname": "Nacho",
+            "big": 3
+        },
+        {
+            "scroll": "11",
+            "fname": "Sandy",
+            "lname": "Leick",
+            "active": 0,
+            "pc": 3,
+            "isZetaTau": 0,
+            "nickname": "Trip",
+            "big": 10
+        },
+        {
+            "scroll": "12",
+            "fname": "Columbus",
+            "lname": "Gerrish",
+            "active": 0,
+            "pc": 3,
+            "isZetaTau": 0,
+            "nickname": "Easy Sweep",
+            "big": 5
+        },
+        {
+            "scroll": "13",
+            "fname": "Will",
+            "lname": "Puryear",
+            "active": 0,
+            "pc": 3,
+            "isZetaTau": 0,
+            "nickname": "Natural Mess",
+            "big": 8
+        },
+        {
+            "scroll": "14",
+            "fname": "Ignacio",
+            "lname": "Hatt",
+            "active": 0,
+            "pc": 3,
+            "isZetaTau": 0,
+            "nickname": "Troubadour",
+            "big": 2
+        },
+        {
+            "scroll": "15",
+            "fname": "Lucas",
+            "lname": "Kantz",
+            "active": 0,
+            "pc": 4,
+            "isZetaTau": 0,
+            "nickname": "Electric Player",
+            "big": 5
+        },
+        {
+            "scroll": "16",
+            "fname": "Oswaldo",
+            "lname": "Tavernia",
+            "active": 0,
+            "pc": 4,
+            "isZetaTau": 0,
+            "nickname": "Necromancer",
+            "big": 3
+        },
+        {
+            "scroll": "17",
+            "fname": "Ronald",
+            "lname": "Brower",
+            "active": 0,
+            "pc": 4,
+            "isZetaTau": 0,
+            "nickname": "Turnip King",
+            "big": 11
+        },
+        {
+            "scroll": "18",
+            "fname": "Ty",
+            "lname": "Desoto",
+            "active": 0,
+            "pc": 4,
+            "isZetaTau": 0,
+            "nickname": "Esquire",
+            "big": 14
+        },
+        {
+            "scroll": "19",
+            "fname": "Ernesto",
+            "lname": "Coffman",
+            "active": 0,
+            "pc": 4,
+            "isZetaTau": 0,
+            "nickname": "Neophyte Believer",
+            "big": 10
+        },
+        {
+            "scroll": "20",
+            "fname": "Gene",
+            "lname": "Baumgardner",
+            "active": 0,
+            "pc": 5,
+            "isZetaTau": 0,
+            "nickname": "Twitch",
+            "big": 14
+        },
+        {
+            "scroll": "21",
+            "fname": "Nigel",
+            "lname": "Baxter",
+            "active": 0,
+            "pc": 5,
+            "isZetaTau": 0,
+            "nickname": "Fast Draw",
+            "big": 19
+        },
+        {
+            "scroll": "22",
+            "fname": "Jayson",
+            "lname": "Petree",
+            "active": 0,
+            "pc": 5,
+            "isZetaTau": 0,
+            "nickname": "Nessie",
+            "big": 1
+        },
+        {
+            "scroll": "23",
+            "fname": "Garth",
+            "lname": "Smit",
+            "active": 0,
+            "pc": 5,
+            "isZetaTau": 0,
+            "nickname": "Vagabond Warrior",
+            "big": 16
+        },
+        {
+            "scroll": "24",
+            "fname": "Earnest",
+            "lname": "Wickliffe",
+            "active": 0,
+            "pc": 5,
+            "isZetaTau": 0,
+            "nickname": "Flakes",
+            "big": 2
+        },
+        {
+            "scroll": "25",
+            "fname": "Franklin",
+            "lname": "Rosado",
+            "active": 0,
+            "pc": 6,
+            "isZetaTau": 0,
+            "nickname": "New Cycle",
+            "big": 11
+        },
+        {
+            "scroll": "26",
+            "fname": "Joe",
+            "lname": "Hartsock",
+            "active": 1,
+            "pc": 6,
+            "isZetaTau": 0,
+            "nickname": "Voluntary",
+            "big": 24
+        },
+        {
+            "scroll": "27",
+            "fname": "Alfonso",
+            "lname": "Thies",
+            "active": 0,
+            "pc": 6,
+            "isZetaTau": 0,
+            "nickname": "Flint",
+            "big": 18
+        },
+        {
+            "scroll": "28",
+            "fname": "Frederick",
+            "lname": "Mummert",
+            "active": 0,
+            "pc": 6,
+            "isZetaTau": 0,
+            "nickname": "Nickname Master",
+            "big": 2
+        },
+        {
+            "scroll": "29",
+            "fname": "Leslie",
+            "lname": "Mcgarity",
+            "active": 0,
+            "pc": 6,
+            "isZetaTau": 0,
+            "nickname": "Vortex",
+            "big": 23
+        },
+        {
+            "scroll": "30",
+            "fname": "Garfield",
+            "lname": "Newkirk",
+            "active": 0,
+            "pc": 7,
+            "isZetaTau": 0,
+            "nickname": "Freak",
+            "big": 14
+        },
+        {
+            "scroll": "31",
+            "fname": "Franklyn",
+            "lname": "Novy",
+            "active": 1,
+            "pc": 7,
+            "isZetaTau": 0,
+            "nickname": "Nightmare King",
+            "big": 30
+        },
+        {
+            "scroll": "32",
+            "fname": "Herschel",
+            "lname": "Lucien",
+            "active": 1,
+            "pc": 7,
+            "isZetaTau": 0,
+            "nickname": "Washer",
+            "big": 4
+        },
+        {
+            "scroll": "33",
+            "fname": "Elbert",
+            "lname": "Hillsman",
+            "active": 1,
+            "pc": 7,
+            "isZetaTau": 0,
+            "nickname": "Gas Man",
+            "big": 10
+        },
+        {
+            "scroll": "34",
+            "fname": "Sal",
+            "lname": "Moulder",
+            "active": 1,
+            "pc": 7,
+            "isZetaTau": 0,
+            "nickname": "Night Train",
+            "big": 9
+        },
+        {
+            "scroll": "35",
+            "fname": "Neal",
+            "lname": "Wainright",
+            "active": 1,
+            "pc": 8,
+            "isZetaTau": 0,
+            "nickname": "Waylay Dave",
+            "big": 24
+        },
+        {
+            "scroll": "36",
+            "fname": "Dillon",
+            "lname": "Dahlen",
+            "active": 1,
+            "pc": 8,
+            "isZetaTau": 0,
+            "nickname": "Glyph",
+            "big": 16
+        },
+        {
+            "scroll": "37",
+            "fname": "Zachariah",
+            "lname": "Brush",
+            "active": 1,
+            "pc": 8,
+            "isZetaTau": 0,
+            "nickname": "Old Man Winter",
+            "big": 2
+        },
+        {
+            "scroll": "38",
+            "fname": "Markus",
+            "lname": "Grogg",
+            "active": 1,
+            "pc": 8,
+            "isZetaTau": 0,
+            "nickname": "Wheels",
+            "big": 16
+        },
+        {
+            "scroll": "39",
+            "fname": "Shelton",
+            "lname": "Mcbean",
+            "active": 1,
+            "pc": 8,
+            "isZetaTau": 0,
+            "nickname": "Grave Digger",
+            "big": 13
+        },
+        {
+            "scroll": "40",
+            "fname": "Rafael",
+            "lname": "Moynihan",
+            "active": 1,
+            "pc": 9,
+            "isZetaTau": 0,
+            "nickname": "Old Orange Eyes",
+            "big": 39
+        },
+        {
+            "scroll": "41",
+            "fname": "Karl",
+            "lname": "Graden",
+            "active": 1,
+            "pc": 9,
+            "isZetaTau": 0,
+            "nickname": "Wooden Man",
+            "big": 20
+        },
+        {
+            "scroll": "42",
+            "fname": "Elliott",
+            "lname": "Jeanes",
+            "active": 1,
+            "pc": 9,
+            "isZetaTau": 0,
+            "nickname": "Guillotine",
+            "big": 6
+        },
+        {
+            "scroll": "43",
+            "fname": "Alphonse",
+            "lname": "Millan",
+            "active": 1,
+            "pc": 9,
+            "isZetaTau": 0,
+            "nickname": "Old Regret",
+            "big": 14
+        },
+        {
+            "scroll": "44",
+            "fname": "Marcus",
+            "lname": "Kawakami",
+            "active": 1,
+            "pc": 9,
+            "isZetaTau": 0,
+            "nickname": "Woo Woo",
+            "big": 19
+        },
+        {
+            "scroll": "45",
+            "fname": "Wayne",
+            "lname": "Reyer",
+            "active": 1,
+            "pc": 10,
+            "isZetaTau": 0,
+            "nickname": "Gunhawk",
+            "big": 36
+        },
+        {
+            "scroll": "46",
+            "fname": "Jasper",
+            "lname": "Fertig",
+            "active": 1,
+            "pc": 10,
+            "isZetaTau": 0,
+            "nickname": "Onion King",
+            "big": 41
+        },
+        {
+            "scroll": "47",
+            "fname": "Denis",
+            "lname": "Camper",
+            "active": 1,
+            "pc": 10,
+            "isZetaTau": 0,
+            "nickname": "Yellow Menace",
+            "big": 27
+        },
+        {
+            "scroll": "48",
+            "fname": "Kurtis",
+            "lname": "Allinder",
+            "active": 1,
+            "pc": 10,
+            "isZetaTau": 0,
+            "big": 36
+        },
+        {
+            "scroll": "49",
+            "fname": "Winfred",
+            "lname": "Dimartino",
+            "active": 1,
+            "pc": 10,
+            "isZetaTau": 0,
+            "big": 14
+        }
+    ],
+    "officers": [
+        { "title": "Prytanis", "current": 45 },
+        { "title": "Epiprytanis", "current": 41 },
+        { "title": "Histor", "current": 37 },
+        { "title": "Hegemon", "current": 31 },
+        { "title": "Hypophetes", "current": 49 },
+        { "title": "Pylortes", "current": 35 },
+        { "title": "Grammateus", "current": 42 },
+        { "title": "Crysophylos", "current": 26 }
+    ]
+}
