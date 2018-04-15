@@ -42,7 +42,16 @@ functions:
           request:
             template:
               application/json: '{ "password" : "$input.params(''password'')" }'
-
+  authenticate:
+    handler: index.handler
+    events:
+      - http: 
+          path: authenticate
+          method: get
+          cors: true
+          request:
+            template:
+              application/json: '{ "password" : "$input.params(''password'')" }'
   addBrother:
     handler: index.handler
     events:

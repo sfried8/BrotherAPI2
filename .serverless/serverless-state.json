@@ -56,6 +56,12 @@
               "LogGroupName": "/aws/lambda/BrotherAPI-dev-getBrothers"
             }
           },
+          "AuthenticateLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/BrotherAPI-dev-authenticate"
+            }
+          },
           "AddBrotherLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
@@ -112,6 +118,9 @@
                             "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/BrotherAPI-dev-getBrothers:*"
                           },
                           {
+                            "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/BrotherAPI-dev-authenticate:*"
+                          },
+                          {
                             "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/BrotherAPI-dev-addBrother:*"
                           },
                           {
@@ -127,6 +136,9 @@
                         "Resource": [
                           {
                             "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/BrotherAPI-dev-getBrothers:*:*"
+                          },
+                          {
+                            "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/BrotherAPI-dev-authenticate:*:*"
                           },
                           {
                             "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/BrotherAPI-dev-addBrother:*:*"
@@ -164,7 +176,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/BrotherAPI/dev/1523821065288-2018-04-15T19:37:45.288Z/BrotherAPI.zip"
+                "S3Key": "serverless/BrotherAPI/dev/1523829225415-2018-04-15T21:53:45.415Z/BrotherAPI.zip"
               },
               "FunctionName": "BrotherAPI-dev-getBrothers",
               "Handler": "index.handler",
@@ -189,14 +201,56 @@
               "IamRoleLambdaExecution"
             ]
           },
-          "GetBrothersLambdaVersionSuqCc2QBEbPCgxV6tz4nW8BLFKhQayuzgrHZriWcpQ": {
+          "GetBrothersLambdaVersionVZJLjEY7iuA6dbwTPzHe4RTLNLBg1YjBxk05FZdSY": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GetBrothersLambdaFunction"
               },
-              "CodeSha256": "m7DT0LYLA6dHnPb+uOwX/tOcWvbqWiQz7ALDumEdTxo="
+              "CodeSha256": "z0ut42bQaGSalMXyRrbkrasARsnmSbEmdOzPVK5taVQ="
+            }
+          },
+          "AuthenticateLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": {
+                  "Ref": "ServerlessDeploymentBucket"
+                },
+                "S3Key": "serverless/BrotherAPI/dev/1523829225415-2018-04-15T21:53:45.415Z/BrotherAPI.zip"
+              },
+              "FunctionName": "BrotherAPI-dev-authenticate",
+              "Handler": "index.handler",
+              "MemorySize": 1024,
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              },
+              "Runtime": "nodejs6.10",
+              "Timeout": 6,
+              "Environment": {
+                "Variables": {
+                  "BROTHERS_TABLE": "brothers3-table-dev",
+                  "OFFICERS_TABLE": "officers2-table-dev"
+                }
+              }
+            },
+            "DependsOn": [
+              "AuthenticateLogGroup",
+              "IamRoleLambdaExecution"
+            ]
+          },
+          "AuthenticateLambdaVersionmaoQ1QLD06UegXYbZFCpas9IpS0arUXd78R0XJwJJ0U": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "AuthenticateLambdaFunction"
+              },
+              "CodeSha256": "z0ut42bQaGSalMXyRrbkrasARsnmSbEmdOzPVK5taVQ="
             }
           },
           "AddBrotherLambdaFunction": {
@@ -206,7 +260,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/BrotherAPI/dev/1523821065288-2018-04-15T19:37:45.288Z/BrotherAPI.zip"
+                "S3Key": "serverless/BrotherAPI/dev/1523829225415-2018-04-15T21:53:45.415Z/BrotherAPI.zip"
               },
               "FunctionName": "BrotherAPI-dev-addBrother",
               "Handler": "index.handler",
@@ -231,14 +285,14 @@
               "IamRoleLambdaExecution"
             ]
           },
-          "AddBrotherLambdaVersionBUSFvCG6o6jQf6bgvlbPJ4BDeI7uI33PadI5WShcJN4": {
+          "AddBrotherLambdaVersioncgVHlqFJbgH4MS66YqTV4ZwlBZZ96DIJzTN0ebtD4s": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AddBrotherLambdaFunction"
               },
-              "CodeSha256": "m7DT0LYLA6dHnPb+uOwX/tOcWvbqWiQz7ALDumEdTxo="
+              "CodeSha256": "z0ut42bQaGSalMXyRrbkrasARsnmSbEmdOzPVK5taVQ="
             }
           },
           "AddOfficerLambdaFunction": {
@@ -248,7 +302,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/BrotherAPI/dev/1523821065288-2018-04-15T19:37:45.288Z/BrotherAPI.zip"
+                "S3Key": "serverless/BrotherAPI/dev/1523829225415-2018-04-15T21:53:45.415Z/BrotherAPI.zip"
               },
               "FunctionName": "BrotherAPI-dev-addOfficer",
               "Handler": "index.handler",
@@ -273,14 +327,14 @@
               "IamRoleLambdaExecution"
             ]
           },
-          "AddOfficerLambdaVersionH9lKQrugS2PgRgHEyjcSR9f1OG9fTo1kWWSpSx8oo": {
+          "AddOfficerLambdaVersion081qTa5nAi2wXW8vFDz0bFB765SE8h09kD3hzY7Y": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AddOfficerLambdaFunction"
               },
-              "CodeSha256": "m7DT0LYLA6dHnPb+uOwX/tOcWvbqWiQz7ALDumEdTxo="
+              "CodeSha256": "z0ut42bQaGSalMXyRrbkrasARsnmSbEmdOzPVK5taVQ="
             }
           },
           "ApiGatewayRestApi": {
@@ -333,6 +387,21 @@
               }
             }
           },
+          "ApiGatewayResourceAuthenticate": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Fn::GetAtt": [
+                  "ApiGatewayRestApi",
+                  "RootResourceId"
+                ]
+              },
+              "PathPart": "authenticate",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
           "ApiGatewayMethodBrothersOptions": {
             "Type": "AWS::ApiGateway::Method",
             "Properties": {
@@ -373,6 +442,52 @@
               },
               "ResourceId": {
                 "Ref": "ApiGatewayResourceBrothers"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodAuthenticateOptions": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "AuthorizationType": "NONE",
+              "HttpMethod": "OPTIONS",
+              "MethodResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": true,
+                    "method.response.header.Access-Control-Allow-Headers": true,
+                    "method.response.header.Access-Control-Allow-Methods": true,
+                    "method.response.header.Access-Control-Allow-Credentials": true
+                  },
+                  "ResponseModels": {}
+                }
+              ],
+              "RequestParameters": {},
+              "Integration": {
+                "Type": "MOCK",
+                "RequestTemplates": {
+                  "application/json": "{statusCode:200}"
+                },
+                "IntegrationResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": "'*'",
+                      "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                      "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'",
+                      "method.response.header.Access-Control-Allow-Credentials": "'false'"
+                    },
+                    "ResponseTemplates": {
+                      "application/json": ""
+                    }
+                  }
+                ]
+              },
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceAuthenticate"
               },
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
@@ -510,6 +625,45 @@
               "MethodResponses": []
             }
           },
+          "ApiGatewayMethodAuthenticateGet": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "GET",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceAuthenticate"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": false,
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:aws:apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "AuthenticateLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            }
+          },
           "ApiGatewayMethodBrothersAddPost": {
             "Type": "AWS::ApiGateway::Method",
             "Properties": {
@@ -588,7 +742,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1523821065524": {
+          "ApiGatewayDeployment1523829225768": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -598,6 +752,7 @@
             },
             "DependsOn": [
               "ApiGatewayMethodBrothersGet",
+              "ApiGatewayMethodAuthenticateGet",
               "ApiGatewayMethodBrothersAddPost",
               "ApiGatewayMethodBrothersAddofficerPost"
             ]
@@ -608,6 +763,39 @@
               "FunctionName": {
                 "Fn::GetAtt": [
                   "GetBrothersLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:aws:execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    "/*/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "AuthenticateLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "AuthenticateLambdaFunction",
                   "Arn"
                 ]
               },
@@ -755,19 +943,25 @@
           "GetBrothersLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GetBrothersLambdaVersionSuqCc2QBEbPCgxV6tz4nW8BLFKhQayuzgrHZriWcpQ"
+              "Ref": "GetBrothersLambdaVersionVZJLjEY7iuA6dbwTPzHe4RTLNLBg1YjBxk05FZdSY"
+            }
+          },
+          "AuthenticateLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "AuthenticateLambdaVersionmaoQ1QLD06UegXYbZFCpas9IpS0arUXd78R0XJwJJ0U"
             }
           },
           "AddBrotherLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AddBrotherLambdaVersionBUSFvCG6o6jQf6bgvlbPJ4BDeI7uI33PadI5WShcJN4"
+              "Ref": "AddBrotherLambdaVersioncgVHlqFJbgH4MS66YqTV4ZwlBZZ96DIJzTN0ebtD4s"
             }
           },
           "AddOfficerLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AddOfficerLambdaVersionH9lKQrugS2PgRgHEyjcSR9f1OG9fTo1kWWSpSx8oo"
+              "Ref": "AddOfficerLambdaVersion081qTa5nAi2wXW8vFDz0bFB765SE8h09kD3hzY7Y"
             }
           },
           "ServiceEndpoint": {
@@ -850,6 +1044,40 @@
           }
         ],
         "name": "BrotherAPI-dev-getBrothers",
+        "package": {},
+        "vpc": {}
+      },
+      "authenticate": {
+        "handler": "index.handler",
+        "events": [
+          {
+            "http": {
+              "path": "authenticate",
+              "method": "get",
+              "cors": {
+                "origins": [
+                  "*"
+                ],
+                "origin": "*",
+                "methods": [
+                  "OPTIONS",
+                  "GET"
+                ],
+                "headers": [
+                  "Content-Type",
+                  "X-Amz-Date",
+                  "Authorization",
+                  "X-Api-Key",
+                  "X-Amz-Security-Token",
+                  "X-Amz-User-Agent"
+                ],
+                "allowCredentials": false
+              },
+              "integration": "AWS_PROXY"
+            }
+          }
+        ],
+        "name": "BrotherAPI-dev-authenticate",
         "package": {},
         "vpc": {}
       },
@@ -974,7 +1202,7 @@
     "artifact": "/home/sam/Documents/GitHub/BrotherAPI2/.serverless/BrotherAPI.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/BrotherAPI/dev/1523821065288-2018-04-15T19:37:45.288Z",
+    "artifactDirectoryName": "serverless/BrotherAPI/dev/1523829225415-2018-04-15T21:53:45.415Z",
     "artifact": "BrotherAPI.zip"
   }
 }

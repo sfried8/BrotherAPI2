@@ -26,7 +26,17 @@ app.use(bodyParser.json({ strict: false }));
 app.get("/", function(req, res) {
     res.send("Welcome!");
 });
-
+app.get("/authenticate", function(req, res) {
+    if (md5(req.query.password) === "afbaceed96a3d7dadc67c99dafb436ff") {
+        res.status(200).json({ role: "BROTHER" });
+    } else if (md5(req.query.password) === "9543af88d9e1633240dc1754b3781863") {
+        res.status(200).json({ role: "HISTOR" });
+    } else if (req.query.password) {
+        res.status(403).json({ role: "GUEST", error: "Invalid Password" });
+    } else {
+        res.status(400).json({ role: "GUEST", error: "No Password Provided" });
+    }
+});
 // Get Brother endpoint
 app.get("/brothers/:scroll", function(req, res) {
     const params = {
