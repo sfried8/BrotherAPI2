@@ -2,10 +2,16 @@ const serverless = require("serverless-http");
 const bodyParser = require("body-parser");
 const express = require("express");
 const cors = require("cors");
-const md5 = require("blueimp-md5");
+const bcrypt = require("bcrypt");
 const app = express();
 app.use(cors());
 const AWS = require("aws-sdk");
+
+const ROLES = {
+    BROTHER: "BROTHER",
+    HISTOR: "HISTOR",
+    GUEST: "GUEST"
+}
 
 const BROTHERS_TABLE = process.env.BROTHERS_TABLE;
 const OFFICERS_TABLE = process.env.OFFICERS_TABLE;
@@ -23,96 +29,76 @@ if (IS_OFFLINE === "true") {
 }
 app.use(bodyParser.json({ strict: false }));
 
-app.get("/", function(req, res) {
+app.get("/", function (req, res) {
     res.send("Welcome!");
 });
-app.get("/authenticate", function(req, res) {
-    if (md5(req.query.password) === "afbaceed96a3d7dadc67c99dafb436ff") {
-        res.status(200).json({ role: "BROTHER" });
-    } else if (md5(req.query.password) === "9543af88d9e1633240dc1754b3781863") {
-        res.status(200).json({ role: "HISTOR" });
-    } else if (req.query.password) {
-        res.status(403).json({ role: "GUEST", error: "Invalid Password" });
-    } else {
-        res.status(400).json({ role: "GUEST", error: "No Password Provided" });
+const brotherHash = "$2b$08$e7Bp9DYQskwI7PdNPBm4ZuvbLURxihuy3/so/Ks/qL068aNWg6yg2"
+const historHash = "$2b$08$Jtd8elGLvPEIN4sNSgAh9OiuqLGZMm3qRuWEj/D.rwIPHKFR5Z1se"
+function keyToRole(key) {
+    if (bcrypt.compareSync(key, brotherHash)) {
+        return ROLES.BROTHER
+    } else if (bcrypt.compareSync(key, historHash)) {
+        return ROLES.HISTOR
     }
-});
-// Get Brother endpoint
-app.get("/brothers/:scroll", function(req, res) {
-    const params = {
-        TableName: BROTHERS_TABLE,
-        Key: {
-            scroll: req.params.scroll
+    return ROLES.GUEST
+}
+function reqToRole(req) {
+    const auth = req.get("authorization")
+    if (!auth || !auth.startsWith("key=")) {
+        return ROLES.GUEST
+    }
+    return keyToRole(auth.slice(4))
+}
+app.use(function (req, res, next) {
+    const auth = req.get("authorization")
+    if (!auth || !auth.startsWith("key=")) {
+        return res.status(403).json({ error: 'No credentials sent!' });
+    } else {
+        const role = keyToRole(auth.slice(4));
+        if (role === ROLES.GUEST) {
+            return res.status(403).json({ error: 'Invalid credentials' });
         }
+    }
+    next();
+});
+app.get("/authenticate", function (req, res) {
+    const role = reqToRole(req)
+    res.status(200).json({ role: role });
+
+});
+
+app.get("/brothers", function (req, res) {
+    const params = {
+        TableName: BROTHERS_TABLE
     };
 
-    dynamoDb.get(params, (error, result) => {
+    dynamoDb.scan(params, (error, result) => {
         if (error) {
             console.log(error);
-            res.status(500).json({ error: "Could not get brother" });
-        }
-        if (result.Item) {
-            const {
-                scroll,
-                fname,
-                lname,
-                pc,
-                nickname,
-                big,
-                active,
-                isZetaTau
-            } = result.Item;
-            res.json({
-                scroll,
-                fname,
-                lname,
-                pc,
-                nickname,
-                big,
-                active,
-                isZetaTau
-            });
+            res.status(400).json({ error: "Could not get brothers" });
         } else {
-            res.status(400).json({ error: "Brother not found" });
+            const params2 = { TableName: OFFICERS_TABLE };
+
+            dynamoDb.scan(params2, (error2, result2) => {
+                if (error2) {
+                    console.log(error2);
+                    res.status(400).json({
+                        error: "Could not get brothers"
+                    });
+                } else {
+                    res.json({
+                        brothers: result.Items,
+                        officers: result2.Items
+                    });
+                }
+            });
         }
     });
-});
-app.get("/brothers", function(req, res) {
-    if (md5(req.query.password) === "afbaceed96a3d7dadc67c99dafb436ff") {
-        const params = {
-            TableName: BROTHERS_TABLE
-        };
 
-        dynamoDb.scan(params, (error, result) => {
-            if (error) {
-                console.log(error);
-                res.status(400).json({ error: "Could not get brothers" });
-            } else {
-                const params2 = { TableName: OFFICERS_TABLE };
-
-                dynamoDb.scan(params2, (error2, result2) => {
-                    if (error2) {
-                        console.log(error2);
-                        res.status(400).json({
-                            error: "Could not get brothers"
-                        });
-                    } else {
-                        res.json({
-                            brothers: result.Items,
-                            officers: result2.Items
-                        });
-                    }
-                });
-            }
-        });
-    } else {
-        res.status(403).json({ error: "Invalid password" });
-    }
 });
 // Create Brother endpoint
-app.post("/brothers/add", function(req, res) {
+app.post("/brothers/add", function (req, res) {
     let {
-        password,
         scroll,
         fname,
         lname,
@@ -126,7 +112,7 @@ app.post("/brothers/add", function(req, res) {
     // } else if (typeof name !== "string") {
     //     res.status(400).json({ error: '"name" must be a string' });
     // }
-    if (md5(password) === "9543af88d9e1633240dc1754b3781863") {
+    if (reqToRole(req) === ROLES.HISTOR) {
         let isZetaTau = false;
         if (pc < 0) {
             pc *= -1;
@@ -163,12 +149,42 @@ app.post("/brothers/add", function(req, res) {
             });
         });
     } else {
-        res.status(403).json({ error: "Invalid password" });
+        res.status(403).json({ error: "Insufficient Priviledges" });
     }
 });
-app.post("/brothers/addOfficer", function(req, res) {
-    let { password, current, title } = req.body;
-    if (md5(password) === "9543af88d9e1633240dc1754b3781863") {
+
+app.delete("/brothers/delete", function (req, res) {
+    let {
+        scroll
+    } = req.body;
+    console.log("SCROLL IS " + scroll)
+    if (reqToRole(req) === ROLES.HISTOR) {
+
+        const params = {
+            TableName: BROTHERS_TABLE,
+            Key: {
+                scroll
+            }
+        };
+
+        dynamoDb.delete(params, error => {
+            if (error) {
+                console.log(error);
+                res.status(500).json({ error: "Could not delete brother" });
+            } else {
+
+                res.status(200).json({
+                    scroll
+                });
+            }
+        });
+    } else {
+        res.status(403).json({ error: "Insufficient Priviledges" });
+    }
+});
+app.post("/brothers/addOfficer", function (req, res) {
+    let { current, title } = req.body;
+    if (reqToRole(req) === ROLES.HISTOR) {
         const params = {
             TableName: OFFICERS_TABLE,
             Item: { title: title, current: current }
@@ -182,7 +198,7 @@ app.post("/brothers/addOfficer", function(req, res) {
             res.json({ title, current });
         });
     } else {
-        res.status(403).json({ error: "Invalid password" });
+        res.status(403).json({ error: "Insufficient Priviledges" });
     }
 });
 module.exports.handler = serverless(app);
